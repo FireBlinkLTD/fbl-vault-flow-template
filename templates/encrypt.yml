@@ -1,0 +1,41 @@
+version: 1.0.0
+
+requires:
+  fbl: '>=0.4.10'
+
+description: |-
+  Copy all files and folders from "decrypted" to "encrypted" folder and encrypt them.
+
+pipeline:
+  '--':
+    <$ if (!secrets.password) { $>
+    - prompt:
+        message: 'Please enter the password:'
+        password: true
+        assignResponseTo:
+          secrets: $.password
+    - prompt:
+        message: 'Please enter the password once again:'
+        password: true
+        assignResponseTo:
+          secrets: $.passwordConfirmation
+    - '?':
+        value: "<%- secrets.passwordConfirmation == secrets.password %>"
+        is:
+          false:
+            error: 'Passwords do not match'
+    <$ } $>
+
+    - try:
+        action:
+          '--':
+            - rm: encrypted/
+
+    - cp:
+        from: decrypted/
+        to: encrypted/
+
+    - encrypt:
+        password: <%- secrets.password %>
+        include:
+          - encrypted/**/*

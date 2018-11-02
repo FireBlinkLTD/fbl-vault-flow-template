@@ -1,0 +1,31 @@
+version: 1.0.0
+
+requires:
+  fbl: '>=0.4.11'
+
+description: |-
+  Copy all files and folders from "encrypted" to "decrypted" folder and decrypt them.
+
+pipeline:
+  '--':
+    <$ if (!secrets.password) { $>
+    - prompt:
+        message: 'Please enter the password:'
+        password: true
+        assignResponseTo:
+          secrets: $.password
+    <$ } $>
+
+    - try:
+        action:
+          '--':
+            - rm: decrypted/
+
+    - cp:
+        from: encrypted/
+        to: decrypted/
+
+    - decrypt:
+        password: <%- secrets.password %>
+        include:
+          - decrypted/**/*

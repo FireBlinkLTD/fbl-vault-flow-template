@@ -1,0 +1,21 @@
+version: 1.0.0
+
+description: |-
+  Vault storage template generator.
+
+requires:
+  fbl: '>=0.4.11'
+  applications:
+   - yarn
+
+pipeline:
+  '--':
+    - prompt:
+        message: 'Where do you want to setup the vault?'
+        default: <%- cwd %>
+        assignResponseTo:
+          ctx: $.destination
+
+    - cp:
+        from: templates/
+        to: <%- $.fs.getAbsolutePath(ctx.destination, cwd) %>/
