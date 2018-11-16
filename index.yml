@@ -4,18 +4,22 @@ description: |-
   Vault storage template generator.
 
 requires:
-  fbl: '>=0.4.11'
+  fbl: '>=1.0.4'
   applications:
    - yarn
 
 pipeline:
   '--':
+    <$ if (!ctx.destination) { $>
     - prompt:
         message: 'Where do you want to setup the vault?'
         default: <%- cwd %>
         assignResponseTo:
           ctx: $.destination
+    <$ } $>
 
     - cp:
         from: templates/
         to: <%- $.fs.getAbsolutePath(ctx.destination, cwd) %>/
+
+    - mkdir: <%- $.fs.getAbsolutePath(ctx.destination, 'decrypted') %>

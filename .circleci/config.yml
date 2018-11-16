@@ -1,0 +1,56 @@
+version: 2
+
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:8
+
+jobs:
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+
+      # install fbl
+      - run: sudo npm i -g fbl
+
+      # prepare dir
+      - run: mkdir test
+
+      # generate plugin
+      - run: fbl -c \$.destination=./test ./
+
+      # create file in decrypted folder
+      - run:
+          command: echo "a" > a.txt
+          working_directory: ~/repo/test/decrypted
+
+      # test encryption
+      - run:
+          command: fbl -s \$.password=pass encrypt.yml
+          working_directory: ~/repo/test
+
+      # verify that encrypted file is created
+      - run:
+          command: |-
+            if [[ ! -f a.txt ]] ; then
+                echo 'File "a.txt" is not presented in encrypted folder, aborting.'
+                exit  1
+            fi
+          working_directory: ~/repo/test/encrypted
+
+      # test decryption
+      - run:
+          command: |-
+            rm -rf ./decrypted
+            fbl -s \$.password=pass decrypt.yml
+          working_directory: ~/repo/test
+
+      # verify that decrypted file is created
+      - run:
+          command: |-
+            if [[ ! -f a.txt ]] ; then
+                echo 'File "a.txt" is not presented in decrypted folder, aborting.'
+                exit 1
+            fi
+          working_directory: ~/repo/test/decrypted
