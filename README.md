@@ -1,5 +1,7 @@
 # fbl-vault-flow-template
 
+[![CircleCI](https://circleci.com/gh/FireBlinkLTD/fbl-vault-flow-template.svg?style=svg)](https://circleci.com/gh/FireBlinkLTD/fbl-vault-flow-template)
+
 Secure storage flow template. 
 
 Allows to setup a simple flow that allows to encrypt/decrypt files inside the "vault" folder.
@@ -16,4 +18,12 @@ Then generate your new plugin project with a just one command:
 
 ```bash
 fbl https://github.com/FireBlinkLTD/fbl-vault-flow-template/archive/master.tar.gz
+```
+
+You can also pass all the options into command itself to avoid answering prompts:
+
+```bash
+fbl \
+ -c \$.destination=/path/to/vault_folder \
+ https://github.com/FireBlinkLTD/fbl-vault-flow-template/archive/master.tar.gz
 ```
