@@ -1,7 +1,7 @@
 version: 1.0.0
 
 requires:
-  fbl: '>=0.4.10'
+  fbl: '>=0.4.10 <1.4.0'
 
 description: |-
   Copy all files and folders from "decrypted" to "encrypted" folder and encrypt them.
