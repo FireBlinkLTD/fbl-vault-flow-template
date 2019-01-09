@@ -4,6 +4,7 @@ requires:
   fbl: '>=1.4.0 <2.0.0'
   plugins:
     '@fbl-plugins/crypto': '1.0.1'
+  fbl: '>=0.4.10 <1.4.0'
 
 description: |-
   Copy all files and folders from "decrypted" to "encrypted" folder and encrypt them.
