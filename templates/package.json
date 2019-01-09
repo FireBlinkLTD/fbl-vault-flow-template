@@ -1,0 +1,14 @@
+{
+  "name": "vault",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "encrypt": "fbl -s \\$.password=$PASSWORD encrypt.yml",
+    "decrypt": "fbl -s \\$.password=$PASSWORD decrypt.yml"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@fbl-plugins/crypto": "1.0.1",
+    "fbl": "1.4.0"
+  }
+}

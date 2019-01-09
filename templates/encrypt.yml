@@ -1,12 +1,14 @@
 version: 1.0.0
 
 requires:
-  fbl: '>=0.4.10'
+  fbl: '>=1.4.0 <2.0.0'
+  plugins:
+    '@fbl-plugins/crypto': '1.0.1'
 
 description: |-
   Copy all files and folders from "decrypted" to "encrypted" folder and encrypt them.
 
-pipeline:
+pipeline:  
   '--':
     <$ if (!secrets.password) { $>
     - prompt:
@@ -14,11 +16,13 @@ pipeline:
         password: true
         assignResponseTo:
           secrets: $.password
+
     - prompt:
         message: 'Please enter the password once again:'
         password: true
         assignResponseTo:
           secrets: $.passwordConfirmation
+    
     - '?':
         value: "<%- secrets.passwordConfirmation == secrets.password %>"
         is:
@@ -35,7 +39,16 @@ pipeline:
         from: decrypted/
         to: encrypted/
 
-    - encrypt:
-        password: <%- secrets.password %>
+    - find:
         include:
           - encrypted/**/*
+        result:
+          assignTo: '$.ctx.files'
+    
+    - each:
+        of: $ref:ctx.files
+        action:
+          encrypt:
+            password: $ref:secrets.password
+            file: $ref:iteration.value            
+  

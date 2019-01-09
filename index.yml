@@ -23,3 +23,11 @@ pipeline:
         to: <%- $.fs.getAbsolutePath(ctx.destination, cwd) %>/
 
     - mkdir: <%- $.fs.getAbsolutePath(ctx.destination, 'decrypted') %>
+
+    - exec:
+        command: yarn
+        args:
+          - install
+        wd: <%- ctx.destination %>
+        options:
+          verbose: true

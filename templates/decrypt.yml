@@ -1,7 +1,9 @@
 version: 1.0.0
 
 requires:
-  fbl: '>=0.4.11'
+  fbl: '>=1.4.0 <2.0.0'
+  plugins:
+    '@fbl-plugins/crypto': '1.0.1'
 
 description: |-
   Copy all files and folders from "encrypted" to "decrypted" folder and decrypt them.
@@ -25,7 +27,16 @@ pipeline:
         from: encrypted/
         to: decrypted/
 
-    - decrypt:
-        password: <%- secrets.password %>
+    - find:
         include:
           - decrypted/**/*
+        result:
+          assignTo: '$.ctx.files'
+    
+    - each:
+        of: $ref:ctx.files
+        action:
+          decrypt:
+            password: $ref:secrets.password
+            file: $ref:iteration.value
+
