@@ -18,7 +18,7 @@ jobs:
       - run: mkdir test
 
       # generate plugin
-      - run: fbl -c \$.destination=./test ./
+      - run: fbl -a \$.ctx.destination=./test ./
 
       # create file in decrypted folder
       - run:
