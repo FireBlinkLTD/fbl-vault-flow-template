@@ -1,6 +1,6 @@
 # fbl-vault-flow-template
 
-[![CircleCI](https://circleci.com/gh/FireBlinkLTD/fbl-vault-flow-template.svg?style=svg)](https://circleci.com/gh/FireBlinkLTD/fbl-vault-flow-template)
+[![CircleCI](https://circleci.com/gh/FireBlinkLTD/fbl-vault-flow-template.svg?style=svg)](https://circleci.com/gh/FireBlinkLTD/fbl-vault-flow-template) [![Greenkeeper badge](https://badges.greenkeeper.io/FireBlinkLTD/fbl-vault-flow-template.svg)](https://greenkeeper.io/)
 
 Secure storage flow template. 
 
