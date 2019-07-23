@@ -4,12 +4,18 @@ description: |-
   Vault storage template generator.
 
 requires:
-  fbl: '>=1.0.4'
+  fbl: '>=1.8.0'
   applications:
    - yarn
 
 pipeline:
   '--':
+    - ctx:
+        '$.versions':
+          inline: 
+            crypto: 1.1.0
+            fbl: 1.8.0
+
     <$ if (!ctx.destination) { $>
     - prompt:
         message: 'Where do you want to setup the vault?'
@@ -18,11 +24,23 @@ pipeline:
           ctx: $.destination
     <$ } $>
 
-    - cp:
-        from: templates/
-        to: <%- $.fs.getAbsolutePath(ctx.destination, cwd) %>/
+    <$ [
+      'package.json',      
+    ].forEach(path => { $>
+    - '->':
+        contentFromFile: templates/<$- path $>
+        path: <%- $.fs.getAbsolutePath(ctx.destination, cwd) %>/<$- path $>
+    <$ }); $>
 
-    - mkdir: <%- $.fs.getAbsolutePath(ctx.destination, 'decrypted') %>
+    <$ [
+      'decrypt.yml',
+      'encrypt.yml',      
+      '.gitignore',      
+    ].forEach(path => { $>
+    - cp:
+        from: templates/<$- path $>
+        to: <%- $.fs.getAbsolutePath(ctx.destination, cwd) %>/<$- path $>
+    <$ }); $>
 
     - exec:
         command: yarn

@@ -27,7 +27,7 @@ jobs:
 
       # test encryption
       - run:
-          command: fbl -a \$.secrets.password=pass encrypt.yml
+          command: fbl -a "\$.secrets.password=pass" encrypt.yml
           working_directory: ~/repo/test
 
       # verify that encrypted file is created

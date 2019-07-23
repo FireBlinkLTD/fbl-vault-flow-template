@@ -1,9 +1,9 @@
 version: 1.0.0
 
 requires:
-  fbl: '>=1.4.0 <2.0.0'
+  fbl: '>=1.8.0 <2.0.0'
   plugins:
-    '@fbl-plugins/crypto': '1.0.1'
+    '@fbl-plugins/crypto': '>=1.1.0'
 
 description: |-
   Copy all files and folders from "encrypted" to "decrypted" folder and decrypt them.
