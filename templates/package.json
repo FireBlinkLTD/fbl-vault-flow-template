@@ -9,6 +9,6 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@fbl-plugins/crypto": "1.1.0",
-    "fbl": "1.7.1"
+    "fbl": "1.8.0"
   }
 }
